@@ -34,4 +34,22 @@ export function GetResponseData<T>(
     msg,
   };
 }
-// export
+
+export class ConsoleColor {
+  static red(str: any) {
+    return getColor(str, '\x1b[31m');
+  }
+  static green(str: any) {
+    return getColor(str, '\x1b[32m');
+  }
+  static yellow(str: any) {
+    return getColor(str, '\x1b[33m');
+  }
+  static blue(str: any) {
+    return getColor(str, '\x1b[34m');
+  }
+}
+function getColor(str: any, pre: string): string {
+  const RESET = '\x1b[0m';
+  return pre + str + RESET;
+}
