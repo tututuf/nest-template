@@ -4,10 +4,12 @@ http:
 
 db:
   remote:
-    use: 'mysql',
-    url: 'localhost'
+    use: 'mysql'
+    ip: '120.79.183.77'
     port: 3306
-    database: 'tututuf-db'
+    database: 'tututufdb'
+    root: 'root'
+    psw: '123456'
 
   sqlite:
     database: 'sqlite.db'
