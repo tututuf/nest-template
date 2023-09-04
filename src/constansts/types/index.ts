@@ -22,3 +22,8 @@ export interface NormalResponse<T> {
   code: ResponseStatus;
   type: ResponseType;
 }
+
+export interface PageData<T> {
+  rows: T[];
+  total: number;
+}

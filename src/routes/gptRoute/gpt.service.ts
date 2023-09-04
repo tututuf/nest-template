@@ -1,21 +1,29 @@
 import { Injectable } from '@nestjs/common';
-import { ChatInfo } from './interfaces/gpt.interface';
-import { ChatRoles } from './interfaces/gpt.interface';
+// import { ChatInfo } from './interfaces/gpt.interface';
+// import { ChatRoles } from './interfaces/gpt.interface';
 import openai from 'src/common/ai';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { ChatData } from 'src/datasource/chatdata.entity';
+import { Pagination } from 'src/common/dbExpand';
+// import { Paginator } from 'src/decorators/dbDecorator';
+
 @Injectable()
 export class GptService {
+  constructor(
+    @InjectRepository(ChatData)
+    private chatDataRepository: Repository<ChatData>,
+  ) {}
+
   getHello(): string {
     return 'Hello World!';
   }
-  getChatHistory(): ChatInfo[] {
-    return [
-      {
-        from: ChatRoles.Gpt, // 来自谁的消息
-        to: ChatRoles.Client, // 发送给谁的消息
-        content: Buffer.from('Hello, World'), // 具体内容
-        createDate: '12311', // 发送时间
-      },
-    ];
+
+  getChatHistory(): Pagination<ChatData> {
+    const queryBuilder =
+      this.chatDataRepository.createQueryBuilder('chat_data');
+    const pagination = new Pagination(queryBuilder);
+    return pagination;
   }
 
   async getOpenAiMsg(): Promise<string> {

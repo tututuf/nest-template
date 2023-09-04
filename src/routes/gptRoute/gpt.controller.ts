@@ -1,11 +1,13 @@
-// gpt 路由下的控制层
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Query } from '@nestjs/common';
 import { GptService } from './gpt.service';
 import { ServerPath } from 'src/constansts';
-import { ChatInfo } from './interfaces/gpt.interface';
+// import { ChatInfo } from './interfaces/gpt.interface';
 import { GetResponseData } from 'src/common';
 import { NormalResponse, ResponseType } from 'src/constansts/types';
 import { ConfigService } from '@nestjs/config';
+// import { Pagination } from 'src/common/dbExpand';
+import { ChatData } from 'src/datasource/chatdata.entity';
+import { PageData } from 'src/constansts/types';
 
 @Controller(ServerPath + '/gpt')
 export class GptController {
@@ -28,11 +30,13 @@ export class GptController {
   }
 
   @Get('get_chat_history')
-  getChatHistory(): NormalResponse<ChatInfo[]> {
-    console.log(this.configService.get<string>('DATABASE_USER'));
-
+  async getChatHistory(
+    @Query('page') page: number,
+    @Query('size') size: number,
+  ): Promise<NormalResponse<PageData<ChatData>>> {
+    const data = await this.gptService.getChatHistory().page(page, size);
     return GetResponseData({
-      data: this.gptService.getChatHistory(),
+      data,
       type: ResponseType.SUCCESS,
     });
   }

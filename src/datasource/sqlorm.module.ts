@@ -1,7 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigService } from '@nestjs/config';
-import { User } from './user.entity';
 
 type customDbType = 'mysql' | 'mariadb';
 
@@ -16,7 +15,7 @@ type customDbType = 'mysql' | 'mariadb';
           username: config.get<string>('db.remote.root'),
           password: config.get<string>('db.remote.psw'),
           database: config.get<string>('db.remote.database'),
-          entities: [User],
+          autoLoadEntities: true,
         };
       },
       inject: [ConfigService],

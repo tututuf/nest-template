@@ -5,11 +5,11 @@ http:
 db:
   remote:
     use: 'mysql'
-    ip: '120.79.183.77'
+    ip: 'localhost'
     port: 3306
     database: 'tututufdb'
     root: 'root'
-    psw: '123456'
+    psw: 'root'
 
   sqlite:
     database: 'sqlite.db'
