@@ -5,6 +5,8 @@ import config from '../config/config';
 import { SqlOrmModule } from './datasource/sqlorm.module';
 import { UserModule } from './routes/userRoute/user.module';
 import { DataSource } from 'typeorm';
+import { JwtModule } from '@nestjs/jwt';
+import { JwtConstants } from './constansts';
 @Module({
   imports: [
     GptModule,
@@ -13,6 +15,11 @@ import { DataSource } from 'typeorm';
     ConfigModule.forRoot({
       isGlobal: true,
       load: [config],
+    }),
+    JwtModule.register({
+      global: true,
+      secret: JwtConstants.secret,
+      signOptions: { expiresIn: '24h' },
     }),
   ],
 })

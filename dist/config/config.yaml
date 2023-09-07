@@ -1,0 +1,15 @@
+http:
+  host: 'localhost'
+  port: 3000
+
+db:
+  remote:
+    use: 'mysql'
+    ip: 'localhost'
+    port: 3306
+    database: 'tututufdb'
+    root: 'root'
+    psw: 'root'
+
+  sqlite:
+    database: 'sqlite.db'

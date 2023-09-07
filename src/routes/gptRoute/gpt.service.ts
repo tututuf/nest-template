@@ -1,27 +1,33 @@
 import { Injectable } from '@nestjs/common';
-// import { ChatInfo } from './interfaces/gpt.interface';
-// import { ChatRoles } from './interfaces/gpt.interface';
 import openai from 'src/common/ai';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { ChatData } from 'src/datasource/chatdata.entity';
 import { Pagination } from 'src/common/dbExpand';
-// import { Paginator } from 'src/decorators/dbDecorator';
+import { HistoryRecord } from 'src/datasource/historyRecord.entity';
 
 @Injectable()
 export class GptService {
   constructor(
     @InjectRepository(ChatData)
     private chatDataRepository: Repository<ChatData>,
+
+    @InjectRepository(HistoryRecord)
+    private HistoryRecordRepository: Repository<HistoryRecord>,
   ) {}
 
-  getHello(): string {
-    return 'Hello World!';
+  getChatList(user_id: number): Pagination<ChatData> {
+    const queryBuilder = this.chatDataRepository
+      .createQueryBuilder('chat_data')
+      .where('user_id = :user_id', { user_id });
+    const pagination = new Pagination(queryBuilder);
+    return pagination;
   }
 
-  getChatHistory(): Pagination<ChatData> {
-    const queryBuilder =
-      this.chatDataRepository.createQueryBuilder('chat_data');
+  getHistoryByChatId(chat_id: number): Pagination<HistoryRecord> {
+    const queryBuilder = this.HistoryRecordRepository.createQueryBuilder(
+      'history_record',
+    ).where('chat_id = :chat_id', { chat_id });
     const pagination = new Pagination(queryBuilder);
     return pagination;
   }
