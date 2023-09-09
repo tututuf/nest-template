@@ -6,9 +6,10 @@ import { ChatData } from 'src/datasource/chatdata.entity';
 import { APP_GUARD } from '@nestjs/core';
 import { AuthGuard } from 'src/guard/auth.guard';
 import { HistoryRecord } from 'src/datasource/historyRecord.entity';
+import { User } from 'src/datasource/user.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([ChatData, HistoryRecord])],
+  imports: [TypeOrmModule.forFeature([ChatData, HistoryRecord, User])],
   controllers: [GptController],
   providers: [
     GptService,

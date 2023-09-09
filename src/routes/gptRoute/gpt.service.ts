@@ -27,7 +27,17 @@ export class GptService {
   getHistoryByChatId(chat_id: number): Pagination<HistoryRecord> {
     const queryBuilder = this.HistoryRecordRepository.createQueryBuilder(
       'history_record',
-    ).where('chat_id = :chat_id', { chat_id });
+    )
+      .leftJoinAndSelect('history_record.user', 'user')
+      .where('chat_id = :chat_id', { chat_id })
+      .select([
+        'history_record.id',
+        'history_record.message',
+        'history_record.created_at',
+        'user.id',
+        'user.status',
+        'user.nickname',
+      ]);
     const pagination = new Pagination(queryBuilder);
     return pagination;
   }

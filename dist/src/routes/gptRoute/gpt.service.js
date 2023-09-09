@@ -33,7 +33,17 @@ let GptService = exports.GptService = class GptService {
         return pagination;
     }
     getHistoryByChatId(chat_id) {
-        const queryBuilder = this.HistoryRecordRepository.createQueryBuilder('history_record').where('chat_id = :chat_id', { chat_id });
+        const queryBuilder = this.HistoryRecordRepository.createQueryBuilder('history_record')
+            .leftJoinAndSelect('history_record.user', 'user')
+            .where('chat_id = :chat_id', { chat_id })
+            .select([
+            'history_record.id',
+            'history_record.message',
+            'history_record.created_at',
+            'user.id',
+            'user.status',
+            'user.nickname',
+        ]);
         const pagination = new dbExpand_1.Pagination(queryBuilder);
         return pagination;
     }

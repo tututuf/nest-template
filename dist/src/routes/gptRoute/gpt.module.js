@@ -15,11 +15,12 @@ const chatdata_entity_1 = require("../../datasource/chatdata.entity");
 const core_1 = require("@nestjs/core");
 const auth_guard_1 = require("../../guard/auth.guard");
 const historyRecord_entity_1 = require("../../datasource/historyRecord.entity");
+const user_entity_1 = require("../../datasource/user.entity");
 let GptModule = exports.GptModule = class GptModule {
 };
 exports.GptModule = GptModule = __decorate([
     (0, common_1.Module)({
-        imports: [typeorm_1.TypeOrmModule.forFeature([chatdata_entity_1.ChatData, historyRecord_entity_1.HistoryRecord])],
+        imports: [typeorm_1.TypeOrmModule.forFeature([chatdata_entity_1.ChatData, historyRecord_entity_1.HistoryRecord, user_entity_1.User])],
         controllers: [gpt_controller_1.GptController],
         providers: [
             gpt_service_1.GptService,
